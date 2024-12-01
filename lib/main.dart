@@ -5,7 +5,7 @@ import 'Screens/AuthScreen/welcome_screen.dart';
 void main() {
   runApp(const MyApp());
 }
-
+final navigatorKey = GlobalKey<NavigatorState>();
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -14,24 +14,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Calliverse',
+      navigatorKey: navigatorKey,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primarySwatch: Colors.blue,
+        textTheme: TextTheme(
+          displayLarge: TextStyle(fontSize: 57, fontWeight: FontWeight.bold, color: Colors.black),
+          displayMedium: TextStyle(fontSize: 45, fontWeight: FontWeight.w600, color: Colors.black),
+          displaySmall: TextStyle(fontSize: 36, fontWeight: FontWeight.w500, color: Colors.black),
+          headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.w500, color: Colors.black),
+          headlineMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.w400, color: Colors.black),
+          headlineSmall: TextStyle(fontSize: 24, fontWeight: FontWeight.w300, color: Colors.black),
+          titleLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blue),
+          titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.blue),
+          titleSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.blue),
+          bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.grey),
+          bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.grey),
+          bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal, color: Colors.grey),
+          labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.blue),
+          labelMedium: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.blue),
+          labelSmall: TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.blue),
+        ),
       ),
       home: WelcomeScreen(),
     );

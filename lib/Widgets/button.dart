@@ -1,15 +1,16 @@
+import 'package:calliverse/Constants/color.dart';
 import 'package:flutter/material.dart';
 
-class WelcomeButton extends StatelessWidget {
+class MyButton extends StatelessWidget {
   final String text;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final Color? textColor;
   final VoidCallback onPressed;
 
-  const WelcomeButton({
+  const MyButton({
     Key? key,
     required this.text,
-    required this.backgroundColor,
+    this.backgroundColor,
     this.textColor = Colors.white,
     required this.onPressed,
   }) : super(key: key);
@@ -21,7 +22,7 @@ class WelcomeButton extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          backgroundColor: backgroundColor,
+          backgroundColor: backgroundColor ?? mainColor,
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 48),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
