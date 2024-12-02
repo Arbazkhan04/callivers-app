@@ -61,6 +61,11 @@ TextStyle txtStyle16AndBold = const TextStyle(
 
     fontWeight: FontWeight.bold
 );
+TextStyle txtStyle16AndMainBold = const TextStyle(
+  color: mainColor,
+  fontSize: 16,
+    fontWeight: FontWeight.bold
+);
 TextStyle txtStyle16AndYellowBold = const TextStyle(
   color: yellowColor,
   fontSize: 16,

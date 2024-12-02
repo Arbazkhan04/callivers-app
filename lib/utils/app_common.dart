@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_images.dart';
 import '../Constants/constants.dart';
+import '../Constants/paths.dart';
 import 'app_constants.dart';
 import '../Constants/int_extensions.dart';
 void setTheme() {
@@ -24,7 +25,7 @@ void setTheme() {
 
 
 Widget cachedImage(String? url, {double? height, Color? color, double? width, BoxFit? fit, AlignmentGeometry? alignment, bool usePlaceholderIfUrlEmpty = true, double? radius}) {
-  if (url.validate().isNotEmpty) {
+  if (url.validate().isEmpty) {
 
     return placeHolderWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius);
   } else if (url.validate().startsWith('http')) {
@@ -43,7 +44,7 @@ Widget cachedImage(String? url, {double? height, Color? color, double? width, Bo
       },
     );
   } else {
-    return Image.asset(ic_placeholder, height: height, width: width, fit: BoxFit.cover, alignment: alignment ?? Alignment.center).cornerRadiusWithClipRRect(radius ?? defaultRadius);
+    return Image.asset(url!, height: height, width: width, color: color, fit: BoxFit.contain, alignment: alignment ?? Alignment.center).cornerRadiusWithClipRRect(radius ?? defaultRadius);
   }
 }
 

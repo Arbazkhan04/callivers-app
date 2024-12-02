@@ -39,3 +39,39 @@ class MyButton extends StatelessWidget {
     );
   }
 }
+
+class CustomFloatingActionButton extends StatelessWidget {
+  CustomFloatingActionButton({Key? key, required this.onTap, required this.icon, this.bgColor}) : super(key: key);
+  final VoidCallback onTap;
+  final Widget icon;
+  final Color? bgColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(300)
+      ),
+      backgroundColor: bgColor?? mainColor,
+      onPressed: onTap,
+      child: icon,
+    );
+  }
+}
+
+
+class CustomIconButton extends StatelessWidget {
+  final Widget icon;
+  final Color? backgroundColor;
+  final Color? textColor;
+  final VoidCallback onPressed;
+  const CustomIconButton({super.key, required this.icon, this.backgroundColor, this.textColor, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        onPressed: onPressed,
+        icon: icon);
+  }
+}
+

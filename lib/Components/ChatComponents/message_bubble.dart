@@ -1,3 +1,5 @@
+import 'package:calliverse/Constants/color.dart';
+import 'package:calliverse/Constants/textStyle.dart';
 import 'package:flutter/material.dart';
 
 class MessageBubble extends StatelessWidget {
@@ -36,7 +38,7 @@ class MessageBubble extends StatelessWidget {
         ),
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: isMe ? Theme.of(context).primaryColor : Colors.white,
+          color: isMe ? mainColor : Colors.white,
           borderRadius: BorderRadius.circular(16).copyWith(
             bottomRight: isMe ? Radius.circular(0) : Radius.circular(16),
             bottomLeft: isMe ? Radius.circular(16) : Radius.circular(0),
@@ -56,15 +58,19 @@ class MessageBubble extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: isMe ? Color(0xFF375FFF) : Color(0xFFEDEDED),
+                  color: isMe ? mainColor : Color(0xFFEDEDED),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
                   quotedMessage,
-                  style: TextStyle(
-                    color: isMe ? Colors.white : Color(0xFF1B2B48),
-                    fontSize: 14,
+                  style:
+                  txtStyle14AndBold.copyWith(
+                    color: isMe ? Colors.white : textColor,
                   ),
+                  // TextStyle(
+                  //
+                  //   fontSize: 14,
+                  // ),
                 ),
               ),
               SizedBox(height: 4),

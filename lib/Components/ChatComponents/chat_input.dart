@@ -8,7 +8,7 @@ class ChatInput extends StatelessWidget {
         color: Colors.white,
         border: Border.all(color: Color(0xFFEDEDED)),
       ),
-      padding: EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+      padding: EdgeInsets.symmetric(vertical: 14, horizontal: 6),
       child: Row(
         children: [
           Expanded(
@@ -17,7 +17,7 @@ class ChatInput extends StatelessWidget {
                 color: Color(0xFFF4F4F4),
                 borderRadius: BorderRadius.circular(25),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 14, vertical: 5),
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
               child: Row(
                 children: [
                   IconButton(

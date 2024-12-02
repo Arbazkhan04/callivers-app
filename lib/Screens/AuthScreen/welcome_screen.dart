@@ -1,7 +1,10 @@
 import 'package:calliverse/Components/common.dart';
 import 'package:calliverse/Components/widget_extensions.dart';
+import 'package:calliverse/Constants/color.dart';
 import 'package:calliverse/Constants/paths.dart';
 import 'package:calliverse/Constants/sizedbox.dart';
+import 'package:calliverse/Screens/BottomBar/bottom_bar.dart';
+import 'package:calliverse/Screens/MessageScreen/message_screen.dart';
 import 'package:calliverse/utils/app_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,12 +25,14 @@ class WelcomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 18),
-              cachedImage("",),
+
               Expanded(
-                child: Image.asset(
-                  onBoardingImage,
-                  fit: BoxFit.contain,
-                ),
+                child:
+                // Image.asset(
+                //   onBoardingImage,
+                //   fit: BoxFit.contain,
+                // ),
+                cachedImage(onBoardingImage,),
               ),
               const SizedBox(height: 42),
               Text(
@@ -48,23 +53,23 @@ class WelcomeScreen extends StatelessWidget {
               const SizedBox(height: 23),
               MyButton(
                 text: 'Continue with email',
-                backgroundColor: const Color(0xFF095DEC),
+                backgroundColor: mainColor,
                 onPressed: () {},
               ),
               const SizedBox(height: 9),
               MyButton(
                 text: 'Continue with phone',
-                backgroundColor: const Color(0xFF020520),
+                backgroundColor: textColor,
                 onPressed: () {},
               ),
               const SizedBox(height: 9),
               MyButton(
                 text: 'Login',
                 backgroundColor: Colors.transparent,
-                textColor: const Color(0xFF095DEC),
+                textColor: mainColor,
                 onPressed: () {
                   // pop(context);
-                  ChatScreen().launch(context);
+                  BottomBar().launch(context);
                   // Navigator.push(context, MaterialPageRoute(builder: (context) => ChatScreen()));
                 },
               ),

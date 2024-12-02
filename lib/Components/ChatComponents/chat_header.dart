@@ -1,7 +1,20 @@
 import 'package:calliverse/Constants/paths.dart';
+import 'package:calliverse/Constants/textStyle.dart';
 import 'package:flutter/material.dart';
 
-class ChatHeader extends StatelessWidget {
+import '../Message/message_list.dart';
+
+class ChatHeader extends StatefulWidget {
+  final MessageData item;
+  ChatHeader({
+    Key? key,
+    required this.item,
+  }) : super(key: key);
+  @override
+  State<ChatHeader> createState() => _ChatHeaderState();
+}
+
+class _ChatHeaderState extends State<ChatHeader> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,13 +41,8 @@ class ChatHeader extends StatelessWidget {
               SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  'John Doe',
-                  style: TextStyle(
-                    fontFamily: 'Mulish',
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF0F1828),
-                  ),
+                  widget.item.name,
+                  style: txtStyle18AndBold,
                 ),
               ),
               IconButton(
