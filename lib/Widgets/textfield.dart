@@ -19,3 +19,40 @@ textFieldWithoutBorder({hintText,EdgeInsets? contentPadding,TextEditingControlle
     ),
   );
 }
+
+class CustomTextField extends StatelessWidget {
+  final String hintText;
+  final bool obscureText;
+  final TextInputType? keyboardType;
+
+  const CustomTextField({
+    Key? key,
+    required this.hintText,
+    this.obscureText = false,
+    this.keyboardType,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      obscureText: obscureText,
+      keyboardType: keyboardType,
+      style: txtStyle14AndBlack,
+      cursorColor: mainColor,
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: txtStyle14AndOther,
+        filled: true,
+        fillColor: const Color(0xFFF7F7FC),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 8,
+          vertical: 11,
+        ),
+      ),
+    );
+  }
+}

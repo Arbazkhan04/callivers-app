@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../Widgets/button.dart';
 import '../ChatScreen/chat_screen.dart';
+import 'Phone/phone_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -60,7 +61,9 @@ class WelcomeScreen extends StatelessWidget {
               MyButton(
                 text: 'Continue with phone',
                 backgroundColor: textColor,
-                onPressed: () {},
+                onPressed: () {
+                  PhoneScreen().launch(context);
+                },
               ),
               const SizedBox(height: 9),
               MyButton(

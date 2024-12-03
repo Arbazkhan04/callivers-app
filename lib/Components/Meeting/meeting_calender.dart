@@ -24,9 +24,11 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         border: Border.all(color: Colors.grey[300]!),
       ),
       child: TableCalendar(
-        firstDay: DateTime.utc(2024, 1, 1),
-        lastDay: DateTime.utc(2025, 12, 31),
+
+        firstDay: DateTime.now(),
+        lastDay: DateTime.now().add(Duration(days: 365)),
         focusedDay: _focusedDay,
+
         selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
         onDaySelected: (selectedDay, focusedDay) {
           setState(() {
@@ -34,7 +36,10 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             _focusedDay = focusedDay;
           });
         },
-        calendarStyle: const CalendarStyle(
+
+        calendarStyle: CalendarStyle(
+
+          defaultTextStyle: txtStyle14AndBlack,
           selectedDecoration: BoxDecoration(
             color: mainColor,
             shape: BoxShape.circle,
@@ -46,8 +51,10 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         ),
         headerStyle: HeaderStyle(
           formatButtonVisible: false,
+          // formatButtonTextStyle: txtStyle18AndBold,
           titleCentered: true,
-          titleTextStyle: txtStyle16AndMainBold
+          titleTextStyle: txtStyle16AndMainBold,
+
         ),
       ),
     );
