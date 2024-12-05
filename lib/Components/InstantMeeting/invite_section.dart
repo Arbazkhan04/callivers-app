@@ -1,11 +1,15 @@
 import 'package:calliverse/Components/common.dart';
+import 'package:calliverse/Components/widget_extensions.dart';
 import 'package:calliverse/Constants/color.dart';
 import 'package:calliverse/Constants/textStyle.dart';
 import 'package:calliverse/Widgets/button.dart';
 import 'package:calliverse/Widgets/copyToClipboard.dart';
+import 'package:calliverse/Widgets/dialogBox.dart';
 import 'package:calliverse/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../Meeting/invite_member.dart';
 
 class InviteSection extends StatelessWidget {
   const InviteSection({Key? key}) : super(key: key);
@@ -31,7 +35,10 @@ class InviteSection extends StatelessWidget {
             width: double.infinity,
             child:
             MyButton(
-              onPressed: (){pop();},
+              onPressed: (){dialogBox(
+                context: context,
+                content: InviteMembersScreen()
+              );},
               text: 'Invite Friend',
             ),
             // ElevatedButton(

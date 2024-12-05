@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../Widgets/button.dart';
 import '../ChatScreen/chat_screen.dart';
+import 'EmailPassword/email_password.dart';
 import 'Phone/phone_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -55,7 +56,7 @@ class WelcomeScreen extends StatelessWidget {
               MyButton(
                 text: 'Continue with email',
                 backgroundColor: mainColor,
-                onPressed: () {},
+                onPressed: () {EmailPasswordScreen().launch(context);},
               ),
               const SizedBox(height: 9),
               MyButton(

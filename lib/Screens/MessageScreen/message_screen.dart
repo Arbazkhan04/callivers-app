@@ -1,3 +1,4 @@
+import 'package:calliverse/Components/widget_extensions.dart';
 import 'package:calliverse/Constants/color.dart';
 import 'package:calliverse/utils/app_common.dart';
 import 'package:calliverse/utils/app_images.dart';
@@ -8,6 +9,7 @@ import '../../Components/Message/message_list.dart';
 import '../../Constants/paths.dart';
 import '../../Widgets/button.dart';
 import '../BottomBar/bottom_bar.dart';
+import 'NewMessageAdd.dart';
 
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({Key? key}) : super(key: key);
@@ -32,7 +34,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
         ),
       ),
       floatingActionButton: CustomFloatingActionButton(
-        onTap: (){},
+        onTap: (){NewMessageScreen().launch(context);},
         icon: cachedImage(createChatIcon,width: 25),
 
       ),

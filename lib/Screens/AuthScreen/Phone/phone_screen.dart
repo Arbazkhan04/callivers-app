@@ -1,4 +1,5 @@
 import 'package:calliverse/Components/common.dart';
+import 'package:calliverse/Components/widget_extensions.dart';
 import 'package:calliverse/Constants/color.dart';
 import 'package:calliverse/Constants/sizedbox.dart';
 import 'package:calliverse/Constants/textStyle.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/services.dart';
 
 import '../../../Components/PhoneAuth/country_selector.dart';
 import '../../../Widgets/textfield.dart';
+import '../VerificationScreen/verification_screen.dart';
 
 class PhoneScreen extends StatelessWidget {
   const PhoneScreen({Key? key}) : super(key: key);
@@ -60,7 +62,7 @@ class PhoneScreen extends StatelessWidget {
                   ),
                 ),
                 sizeHeight30,
-                MyButton(text: "Continue", onPressed: (){pop();}),
+                MyButton(text: "Continue", onPressed: (){VerificationScreen().launch(context);}),
               ],
             ),
           ),
@@ -69,18 +71,7 @@ class PhoneScreen extends StatelessWidget {
     );
   }
 }
-Widget _buildDropdownItem(Country country) => Container(
-  child: Row(
-    mainAxisSize: MainAxisSize.min,
-    children: <Widget>[
-      CountryPickerUtils.getDefaultFlagImage(country),
-      SizedBox(
-        width: 8.0,
-      ),
-      Text("+${country.phoneCode}(${country.isoCode})"),
-    ],
-  ),
-);
+
 class PhoneNumberField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

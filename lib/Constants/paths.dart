@@ -39,7 +39,9 @@ const downloadIcon = "assets/icons/download.png";
 const deleteIcon = "assets/icons/delete.png";
 const emojiIcon = "assets/icons/emoji-smile.png";
 const sendIcon = "assets/icons/send.png";
-const ic_placeholder = "assets/images/Vector.png";
+const ic_placeholder = "assets/icons/Avatar.png";
+const checkTickIcon = "assets/icons/tick.png";
+// const ic_placeholder = "assets/images/Vector.png";
 
 
 

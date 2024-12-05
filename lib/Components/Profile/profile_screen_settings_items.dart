@@ -1,3 +1,4 @@
+import 'package:calliverse/Components/widget_extensions.dart';
 import 'package:calliverse/Constants/sizedbox.dart';
 import 'package:calliverse/Constants/textStyle.dart';
 import 'package:calliverse/utils/app_common.dart';
@@ -10,12 +11,14 @@ class SettingsItem extends StatelessWidget {
   final String title;
   final Widget? trailing;
   final Color titleColor;
+  // final Function()? onTap;
   final bool showArrow;
 
   const SettingsItem({
     Key? key,
     required this.icon,
     required this.title,
+    // this.onTap,
     this.trailing,
     this.titleColor = Colors.black,
     this.showArrow = false,

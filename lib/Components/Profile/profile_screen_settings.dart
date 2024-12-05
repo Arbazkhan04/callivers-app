@@ -1,4 +1,5 @@
 import 'package:calliverse/Components/Profile/profile_screen_settings_items.dart';
+import 'package:calliverse/Components/widget_extensions.dart';
 import 'package:calliverse/Constants/color.dart';
 import 'package:calliverse/Constants/paths.dart';
 import 'package:calliverse/Constants/textStyle.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../Provider/profile_provider.dart';
+import '../../Screens/ProfileScreen/edit_profile_screen.dart';
 
 class ProfileSettingsList extends StatelessWidget {
   const ProfileSettingsList({Key? key}) : super(key: key);
@@ -13,7 +15,7 @@ class ProfileSettingsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ProfileProvider>(
-      builder: (context,profileProvider,_) {
+      builder: (contexts,profileProvider,_) {
         return Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
@@ -22,7 +24,9 @@ class ProfileSettingsList extends StatelessWidget {
                 icon: personIcon,
                 title: 'Edit Profile',
                 showArrow: true,
-              ),
+              ).onTap((){
+                EditProfileScreen().launch(context);
+              }),
               SettingsItem(
                 icon: languageIcon,
                 title: 'Translation Language',
