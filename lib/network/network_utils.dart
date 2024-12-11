@@ -34,9 +34,14 @@ Uri buildBaseUrl(String endPoint) {
   return url;
 }
 
-Future<Response> buildHttpResponse(String endPoint, {HttpMethod method = HttpMethod.GET, Map? request}) async {
+Future<Response> buildHttpResponse(String endPoint, {HttpMethod method = HttpMethod.GET, Map? request,bool?isChooseSimpleHeader}) async {
   if (await isNetworkAvailable()) {
-    var headers = buildHeaderTokens();
+    var headers = isChooseSimpleHeader != null && isChooseSimpleHeader == true? {
+      'Content-Type': 'application/json'
+    }: buildHeaderTokens();
+    // var headers2 = {
+    //   'Content-Type': 'application/json'
+    // };
     Uri url = buildBaseUrl(endPoint);
 
     Response response;
@@ -47,7 +52,7 @@ Future<Response> buildHttpResponse(String endPoint, {HttpMethod method = HttpMet
     } else if (method == HttpMethod.DELETE) {
       response = await delete(url, headers: headers);
     } else if (method == HttpMethod.PUT) {
-      response = await put(url, body: jsonEncode(request), headers: headers);
+      response = await put(url, body: jsonEncode(request), headers:  headers);
     }else {
       response = await get(url, headers: headers);
     }

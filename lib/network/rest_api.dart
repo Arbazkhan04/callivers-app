@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart';
 
+import '../Widgets/my_print.dart';
 import '../utils/app_constants.dart';
 import 'network_utils.dart';
 
@@ -55,13 +56,41 @@ Future examplePostApi({required Map req}) async {
 Future exampleGetApi({page,name}) async {
   // return AllFriendRequestModalClass.fromJson(await handleResponse(await (buildHttpResponse(name != null && name.toString().isNotEmpty? 'friends/requests?username=$name' : 'friends/requests?page=$page', method: HttpMethod.GET))));
 }
-
-Future confirmFriendRequestPostApi({required Map req}) async {
-  return await (buildHttpResponse('friends/confirm', request: req, method: HttpMethod.POST).then((value){
-    // myPrint("confirmFriendRequestPostApi ${value.statusCode} ----> ${value.body} ----> ${jsonDecode(value.body)}");
+Future registerApi({required Map req}) async {
+  return await buildHttpResponse('userManagementRoutes/createUser', request: req, method: HttpMethod.POST,isChooseSimpleHeader: true).then((value){
+    myPrint("createAccountPostApi ${value.statusCode} ----> ${value.body} ----> ${jsonDecode(value.body)}");
     return value.body;
-  }));
+  });
 }
+Future loginApi({required Map req}) async {
+  return await buildHttpResponse('userManagementRoutes/login', request: req, method: HttpMethod.POST,isChooseSimpleHeader: true).then((value){
+    myPrint("loginApi ${value.statusCode} ----> ${value.body} ----> ${jsonDecode(value.body)}");
+    return value.body;
+  });
+}
+
+
+Future otpVerifiedApi({required Map req}) async {
+  return await buildHttpResponse('userManagementRoutes/verifyEmailCode', request: req, method: HttpMethod.POST,isChooseSimpleHeader: true).then((value){
+    myPrint("otpVerifiedApi ${value.statusCode} ----> ${value.body} ----> ${jsonDecode(value.body)}");
+    return value.body;
+  });
+}
+
+Future resendOtpApi({required Map req}) async {
+  return await buildHttpResponse('userManagementRoutes/resendVerificationCode', request: req, method: HttpMethod.POST,isChooseSimpleHeader: true).then((value){
+    myPrint("resendOtpApi ${value.statusCode} ----> ${value.body} ----> ${jsonDecode(value.body)}");
+    return value.body;
+  });
+}
+
+
+// Future createAccountPostApi({required Map req}) async {
+//   return await handleResponse(buildHttpResponse('userManagementRoutes/createUser', request: req, method: HttpMethod.POST,isChooseSimpleHeader: true).then((value){
+//     myPrint("createAccountPostApi ${value.statusCode} ----> ${value.body} ----> ${jsonDecode(value.body)}");
+//     return value.body;
+//   }));
+// }
 
 // Future examplePaginationGetApi({userId,page,name}) async {
 //   return UserAllFriendsModalClass.fromJson(await handleResponse(await (buildHttpResponse(name != null && name.toString().isNotEmpty?'friends?user_id=$userId&name=$name' :'friends?user_id=$userId&page=$page&name=$name', method: HttpMethod.GET))));

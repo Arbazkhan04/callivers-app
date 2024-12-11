@@ -69,7 +69,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
         title: '',
         leadIcon: IconButton(
             onPressed: (){
-              BottomBar().launch(context,isNewTask: true);
+              Navigator.pop(context);
             },
             icon: Icon(Icons.close,color: textColor,))
       ),

@@ -40,7 +40,13 @@ const deleteIcon = "assets/icons/delete.png";
 const emojiIcon = "assets/icons/emoji-smile.png";
 const sendIcon = "assets/icons/send.png";
 const ic_placeholder = "assets/icons/Avatar.png";
+const ic_placeholder2 = "assets/icons/person_signup.png";
 const checkTickIcon = "assets/icons/tick.png";
+const logoutDialogIcon = "assets/icons/logout.png";
+const checkCircleIcon = "assets/icons/check_circle.png";
+const personCircleIcon = "assets/icons/person_circle.png";
+const viewIcon = "assets/icons/view.png";
+const hideIcon = "assets/icons/view_hide.png";
 // const ic_placeholder = "assets/images/Vector.png";
 
 

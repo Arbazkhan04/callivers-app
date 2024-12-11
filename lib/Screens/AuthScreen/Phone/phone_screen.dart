@@ -3,6 +3,7 @@ import 'package:calliverse/Components/widget_extensions.dart';
 import 'package:calliverse/Constants/color.dart';
 import 'package:calliverse/Constants/sizedbox.dart';
 import 'package:calliverse/Constants/textStyle.dart';
+import 'package:calliverse/Provider/authen_provider.dart';
 import 'package:calliverse/Widgets/appbar.dart';
 import 'package:calliverse/Widgets/button.dart';
 import 'package:country_code_picker/country_code_picker.dart';
@@ -11,111 +12,125 @@ import 'package:country_pickers/country_picker_dropdown.dart';
 import 'package:country_pickers/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import '../../../Components/PhoneAuth/country_selector.dart';
 import '../../../Widgets/textfield.dart';
+import '../../../Widgets/validations.dart';
 import '../VerificationScreen/verification_screen.dart';
 
-class PhoneScreen extends StatelessWidget {
+class PhoneScreen extends StatefulWidget {
   const PhoneScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: appBar(),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Container(
-            width: double.infinity,
-            // constraints: const BoxConstraints(maxWidth: 480),
-            padding: kDefaultPaddingHorizontal,
-            child: Column(
-              children: [
-                sizeHeight10,
-                Text(
-                  'Sign up with phone number',
-                  style: txtStyle22AndBold,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Please confirm your country code and enter your phone number',
-                  textAlign: TextAlign.center,
-                  style: txtStyle14AndBlack,
-                ),
-                const SizedBox(height: 39),
-                Form(
-                  child: Column(
-                    children: [
-                      PhoneNumberField(),
-                      sizeHeight10,
-                      CustomTextField(
-                        hintText: 'Password',
-                        obscureText: true,
-                      ),
-                      sizeHeight10,
-                      CustomTextField(
-                        hintText: 'Confirm Password',
-                        obscureText: true,
-                      ),
-                    ],
-                  ),
-                ),
-                sizeHeight30,
-                MyButton(text: "Continue", onPressed: (){VerificationScreen().launch(context);}),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  State<PhoneScreen> createState() => _PhoneScreenState();
 }
 
-class PhoneNumberField extends StatelessWidget {
+class _PhoneScreenState extends State<PhoneScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((e){
+      Provider.of<AuthenProvider>(context,listen: false).allAuthControllerNullFun();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // padding: EdgeInsets.symmetric(horizontal: 16.0),
-      decoration: BoxDecoration(
-        color: Color(0xFFF8F9FD), // Background color
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Row(
-        children: [
-          // Country Code Picker
-          SizedBox(
-            child: CountryCodePicker(
-              onChanged: (countryCode) {
-                print(countryCode.dialCode); // Get the selected country code
-              },
-              // padding: EdgeInsets.zero,
-              // margin: EdgeInsets.zero,
+    return Consumer<AuthenProvider>(
+      builder: (context,authProvider,_) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: appBar(),
+          body: SingleChildScrollView(
+            child: SafeArea(
+              child: Container(
+                width: double.infinity,
+                // constraints: const BoxConstraints(maxWidth: 480),
+                padding: kDefaultPaddingHorizontal,
+                child: Column(
+                  children: [
+                    sizeHeight10,
+                    Text(
+                      'Sign up with phone number',
+                      style: txtStyle22AndBold,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Please confirm your country code and enter your phone number',
+                      textAlign: TextAlign.center,
+                      style: txtStyle14AndBlack,
+                    ),
+                    const SizedBox(height: 39),
+                    Form(
+                      key: authProvider.formKey,
+                      child: Column(
+                        children: [
+                          PhoneNumberField(
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            onChanged: (e){
+                              print("es");
+                              authProvider.phoneFullNumberController.text = e;
+                            },
 
-              initialSelection: 'US',
-              favorite: ['+1', 'US'],
-              showFlag: true,
-              showDropDownButton: false,
-              textStyle: txtStyle14AndBlack,
-            ),
-          ),
-          // Divider between flag and text field
-          // SizedBox(width: 8.0),
-          Expanded(
-            // Phone Number Input Field
-            child: TextField(
-              cursorColor: mainColor,
-              style: txtStyle14AndBlack,
-              keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Phone Number',
-                hintStyle: txtStyle14AndOther,
+                            validator: AllValidation().validatePhoneNumber,
+                            onChangeCountry: (e){
+                              print("objectCountryCode -> ${e.dialCode}");
+                              authProvider.phoneCountryCodeController.text = e.code!;
+
+                            },
+                          ),
+                          sizeHeight10,
+                          CustomTextField(
+                            hintText: 'Password',
+                            obscureText: true,
+                            controller: authProvider.passwordController,
+                            onChanged: (e){
+                              authProvider.passwordController.text = e;
+                            },
+                            validator: AllValidation().passwordValidator,
+
+                          ),
+                          sizeHeight10,
+                          CustomTextField(
+                            hintText: 'Confirm Password',
+                            obscureText: true,
+                            onChanged: (e){
+                              authProvider.confirmPasswordController.text = e;
+                            },
+                            controller: authProvider.confirmPasswordController,
+                            validator:(value) => AllValidation().confirmPasswordValidator(value,authProvider.passwordController.text),
+
+                          ),
+                        ],
+                      ),
+                    ),
+                    sizeHeight30,
+                    MyButton(text: "Continue", onPressed: (){
+
+                      // VerificationScreen().launch(context);
+                      if (authProvider.formKey.currentState!.validate()) {
+                        // Validation passed
+                        print("Form is valid");
+                        VerificationScreen().launch(context);
+                      } else {
+                        // Validation failed
+                        print("Form is invalid");
+                      }
+                    }),
+                  ],
+                ),
               ),
             ),
           ),
-        ],
-      ),
+        );
+      }
     );
   }
 }
+
+

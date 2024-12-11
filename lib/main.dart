@@ -1,9 +1,12 @@
 import 'package:calliverse/Provider/bottom_bar_provider.dart';
+import 'package:calliverse/socket_io_test.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'Constants/color.dart';
+import 'Provider/authen_provider.dart';
+import 'Provider/image_picker_provider.dart';
 import 'Provider/profile_provider.dart';
 import 'Screens/AuthScreen/welcome_screen.dart';
 import 'Screens/SplashScreen/splash_screen.dart';
@@ -16,6 +19,12 @@ void main() {
         ),
         ChangeNotifierProvider<ProfileProvider>(
           create: (_) => ProfileProvider(),
+        ),
+        ChangeNotifierProvider<AuthenProvider>(
+          create: (_) => AuthenProvider(),
+        ),
+        ChangeNotifierProvider<ImagePickerProvider>(
+          create: (_) => ImagePickerProvider(),
         ),
       ],
       child: const MyApp()));
@@ -32,7 +41,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily: GoogleFonts.poppins().fontFamily,
+        fontFamily: GoogleFonts.mulish().fontFamily,
         // primarySwatch: mainColor,
         primaryColor: mainColor,
         primaryColorLight: mainColor,

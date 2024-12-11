@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import '../../Widgets/button.dart';
 import '../ChatScreen/chat_screen.dart';
 import 'EmailPassword/email_password.dart';
+import 'Login/login_with_email.dart';
 import 'Phone/phone_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -73,7 +74,7 @@ class WelcomeScreen extends StatelessWidget {
                 textColor: mainColor,
                 onPressed: () {
                   // pop(context);
-                  BottomBar().launch(context);
+                  LoginWithEmailPassword().launch(context);
                   // Navigator.push(context, MaterialPageRoute(builder: (context) => ChatScreen()));
                 },
               ),

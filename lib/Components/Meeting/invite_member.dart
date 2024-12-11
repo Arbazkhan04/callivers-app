@@ -1,4 +1,5 @@
 import 'package:calliverse/Components/common.dart';
+import 'package:calliverse/Constants/textStyle.dart';
 import 'package:calliverse/Widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,11 +25,7 @@ class InviteMembersScreen extends StatelessWidget {
         children: [
           Text(
             'Invite Members',
-            style: GoogleFonts.mulish(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF0F1828),
-            ),
+            style: txtStyle18AndBold,
           ),
           const SizedBox(height: 20),
           const InviteField(
