@@ -2,15 +2,17 @@ import 'package:calliverse/Constants/color.dart';
 import 'package:flutter/material.dart';
 
 class MyButton extends StatelessWidget {
-  final String text;
+  final String? text;
+  final Widget? childWidget;
   final Color? backgroundColor;
   final Color? textColor;
   final VoidCallback onPressed;
 
   const MyButton({
     Key? key,
-    required this.text,
+    this.text,
     this.backgroundColor,
+    this.childWidget,
     this.textColor = Colors.white,
     required this.onPressed,
   }) : super(key: key);
@@ -19,7 +21,7 @@ class MyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      child: TextButton(
+      child: ElevatedButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
           backgroundColor: backgroundColor ?? mainColor,
@@ -28,8 +30,8 @@ class MyButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
           ),
         ),
-        child: Text(
-          text,
+        child: childWidget ?? Text(
+          text ?? "",
           style: TextStyle(
             color: textColor,
             fontWeight: FontWeight.w600,

@@ -1,4 +1,5 @@
 
+import 'package:calliverse/Constants/color.dart';
 import 'package:flutter/material.dart';
 
 const sizeHeight20 = SizedBox(height: 20,);
@@ -25,7 +26,7 @@ const sizeWidth15 = SizedBox(width: 15,);
    return SizedBox(height: MediaQuery.of(context).padding.top+10);
  }
 // const dividerWhite = Divider(color: textColor,);
-const divider = Divider();
+var divider = Divider(color: greyColor300,);
 const spacer = Spacer();
 const kDefaultPaddingHorizontal = EdgeInsets.symmetric(horizontal: 20);
 const kPaddingHorizontal20 = EdgeInsets.symmetric(horizontal: 20);

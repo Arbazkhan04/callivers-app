@@ -34,42 +34,167 @@ Uri buildBaseUrl(String endPoint) {
   return url;
 }
 
-Future<Response> buildHttpResponse(String endPoint, {HttpMethod method = HttpMethod.GET, Map? request,bool?isChooseSimpleHeader}) async {
+// Future<Response> buildHttpResponse(String endPoint, {HttpMethod method = HttpMethod.GET, Map? request,bool?isChooseSimpleHeader}) async {
+//   if (await isNetworkAvailable()) {
+//     var headers = isChooseSimpleHeader != null && isChooseSimpleHeader == true? {
+//       'Content-Type': 'application/json'
+//     }: buildHeaderTokens();
+//     // var headers2 = {
+//     //   'Content-Type': 'application/json'
+//     // };
+//     Uri url = buildBaseUrl(endPoint);
+//
+//     Response response;
+//
+//     if (method == HttpMethod.POST) {
+//       log('Request: $request');
+//       response = await http.post(url, body: jsonEncode(request), headers: headers);
+//     }
+//     else if (method == HttpMethod.PATCH) {
+//       log('Request: $request');
+//       response = await http.patch(url, body: jsonEncode(request), headers: headers);
+//     } else if (method == HttpMethod.DELETE) {
+//       response = await delete(url, headers: headers);
+//     } else if (method == HttpMethod.PUT) {
+//       response = await put(url, body: jsonEncode(request), headers:  headers);
+//     }else {
+//       response = await get(url, headers: headers);
+//     }
+//
+//     log('Responsess ($method): ${response.statusCode} ${jsonDecode(response.body)}');
+//
+//     return response;
+//   } else {
+//     throw "errorInternetNotAvailable";
+//   }
+// }
+////
+Future<http.Response> buildHttpResponse(
+    String endPoint, {
+      HttpMethod method = HttpMethod.GET,
+      Map<String, dynamic>? request,
+      bool? isChooseSimpleHeader,
+      Map<String, String>? fields,
+      File? file,
+    }) async {
   if (await isNetworkAvailable()) {
-    var headers = isChooseSimpleHeader != null && isChooseSimpleHeader == true? {
-      'Content-Type': 'application/json'
-    }: buildHeaderTokens();
-    // var headers2 = {
-    //   'Content-Type': 'application/json'
-    // };
-    Uri url = buildBaseUrl(endPoint);
+    var headers = isChooseSimpleHeader == true
+        ? {
+      'Content-Type': 'application/json',
+    }
+        : buildHeaderTokens();
 
-    Response response;
+    Uri url = buildBaseUrl(endPoint);
+    http.Response response;
 
     if (method == HttpMethod.POST) {
       log('Request: $request');
       response = await http.post(url, body: jsonEncode(request), headers: headers);
+    } else if (method == HttpMethod.PATCH) {
+      log('Multipart PATCH Request');
+      headers.remove('Content-Type'); // Do not set Content-Type manually for multipart
+      var multipartRequest = http.MultipartRequest('PATCH', url);
+      multipartRequest.headers.addAll(headers);
+
+      if (fields != null) {
+        multipartRequest.fields.addAll(fields);
+      }
+
+      http.StreamedResponse streamedResponse = await multipartRequest.send();
+
+      String responseBody = await streamedResponse.stream.transform(utf8.decoder).join();
+      response = http.Response(responseBody, streamedResponse.statusCode);
     } else if (method == HttpMethod.DELETE) {
-      response = await delete(url, headers: headers);
+      response = await http.delete(url, headers: headers);
     } else if (method == HttpMethod.PUT) {
-      response = await put(url, body: jsonEncode(request), headers:  headers);
-    }else {
-      response = await get(url, headers: headers);
+      response = await http.put(url, body: jsonEncode(request), headers: headers);
+    } else {
+      response = await http.get(url, headers: headers);
     }
 
-    log('Responsess ($method): ${response.statusCode} ${jsonDecode(response.body)}');
-
+    log('Response ($method): ${response.statusCode} ${response.body}');
     return response;
   } else {
     throw "errorInternetNotAvailable";
   }
 }
 
+// Future<http.Response> buildHttpResponse(
+//     String endPoint, {
+//       HttpMethod method = HttpMethod.GET,
+//       Map<String, dynamic>? request,
+//       bool? isChooseSimpleHeader,
+//       Map<String, String>? fields,
+//       File? file,
+//     }) async {
+//   if (await isNetworkAvailable()) {
+//     var headers = isChooseSimpleHeader == true
+//         ? {
+//       'Content-Type': 'application/json',
+//     }
+//         : buildHeaderTokens();
+//
+//     Uri url = buildBaseUrl(endPoint);
+//     http.Response response;
+//
+//     if (method == HttpMethod.POST) {
+//       log('Request: $request');
+//       response = await http.post(url, body: jsonEncode(request), headers: headers);
+//     } else if (method == HttpMethod.PATCH) {
+//       // Handling multipart PATCH
+//       log('Multipart PATCH Request');
+//       print("object 88 ${fields} == ${file?.path}");
+//       var multipartRequest = http.MultipartRequest('PATCH', url);
+//       // Ensure Content-Type is not manually set for multipart
+//       headers.remove('Content-Type');
+//       multipartRequest.headers.clear();
+//       multipartRequest.headers.addAll(headers);
+//
+//       // Add fields
+//       if (fields != null) {
+//         multipartRequest.fields.addAll(fields);
+//       }
+//       log('Headers: ${multipartRequest.headers}');
+//       log('Fields: ${multipartRequest.fields}');
+//       log('Files: ${multipartRequest.files}');
+//       log('file: ${file?.path}');
+//
+//       // Add file
+//       // if (file != null && file.existsSync()) {
+//       //   multipartRequest.files.add(
+//       //     await http.MultipartFile.fromPath('profileImage', file.path),
+//       //   );
+//       // } else {
+//       //   log('File does not exist or is not accessible: ${file?.path}');
+//       //   throw Exception('File does not exist.');
+//       // }
+//
+//       http.StreamedResponse streamedResponse = await multipartRequest.send();
+//
+//       // Convert streamed response to a standard response
+//       String responseBody = await streamedResponse.stream.bytesToString();
+//       response = http.Response(responseBody, streamedResponse.statusCode);
+//     } else if (method == HttpMethod.DELETE) {
+//       response = await http.delete(url, headers: headers);
+//     } else if (method == HttpMethod.PUT) {
+//       response = await http.put(url, body: jsonEncode(request), headers: headers);
+//     } else {
+//       response = await http.get(url, headers: headers);
+//     }
+//
+//     log('Response ($method): ${response.statusCode} ${response.body}');
+//
+//     return response;
+//   } else {
+//     throw "errorInternetNotAvailable";
+//   }
+// }
+
 @deprecated
 Future<Response> getRequest(String endPoint) async => buildHttpResponse(endPoint);
 
 @deprecated
-Future<Response> postRequest(String endPoint, Map request) async => buildHttpResponse(endPoint, request: request, method: HttpMethod.POST);
+Future<Response> postRequest(String endPoint, Map<String,dynamic> request) async => buildHttpResponse(endPoint, request: request, method: HttpMethod.POST);
 
 Future handleResponse(Response response) async {
   if (!await isNetworkAvailable()) {
@@ -92,7 +217,7 @@ Future handleResponse(Response response) async {
 }
 
 //region Common
-enum HttpMethod { GET, POST, DELETE, PUT }
+enum HttpMethod { GET, POST, DELETE, PUT, PATCH }
 
 class TokenException implements Exception {
   final String message;

@@ -1,10 +1,15 @@
+import 'package:calliverse/Constants/paths.dart';
 import 'package:calliverse/Constants/textStyle.dart';
+import 'package:calliverse/modals/all_user_chats_model.dart';
+import 'package:calliverse/utils/app_common.dart';
 import 'package:flutter/material.dart';
 
+import '../../modals/all_users_model_data.dart';
 import 'message_list.dart';
 
 class MessageTile extends StatefulWidget {
-  final MessageData message;
+  // final MessageData message;
+  final Chat? message;
   final Function() onTap;
 
   MessageTile({
@@ -23,10 +28,19 @@ class _MessageTileState extends State<MessageTile> {
       onTap: widget.onTap,
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 29.5,
-            backgroundImage: NetworkImage(widget.message.avatarUrl),
-          ),
+          // Text("data"),
+          // CircleAvatar(
+          //   radius: 29.5,
+          //   // backgroundImage: NetworkImage(widget.message.avatarUrl),
+          //   backgroundImage: NetworkImage(widget.message != null && widget.message!.profileImage != null && widget.message!.profileImage!.imageUrl != null? widget.message!.profileImage!.imageUrl! : ""),
+          // ),
+          // Image.network(widget.message!.participants!.first.profileImage?.imageUrl ?? "",width: 40,),
+          cachedImage(
+              widget.message != null && widget.message!.participants != null && widget.message!.participants?.first.profileImage!= null && widget.message!.participants?.first.profileImage?.imageUrl != null?
+              widget.message!.participants!.first.profileImage?.imageUrl!
+                  :
+              ic_placeholder,
+              width: 55,height: 55,radius: 300,fit: BoxFit.cover),
           const SizedBox(width: 20),
           Expanded(
             child: Row(
@@ -36,7 +50,8 @@ class _MessageTileState extends State<MessageTile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.message.name,
+                      // widget.message.name,
+                      widget.message?.participants?.first.firstName ?? "",
                       style:
                       txtStyle16AndBold.copyWith(
 
@@ -50,7 +65,8 @@ class _MessageTileState extends State<MessageTile> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      widget.message.message,
+                      "",
+                      // widget.message.message,
                       style:
                       txtStyle14AndOther.copyWith(
                         letterSpacing: -0.28,
@@ -68,21 +84,22 @@ class _MessageTileState extends State<MessageTile> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      widget.message.time,
+                      "",
+                      // widget.message.time,
                       style:
                       txtStyle12AndOther.copyWith(
                         letterSpacing: -0.24,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    if (widget.message.hasRead)
-                      const SizedBox(height: 7),
-                    if (widget.message.hasRead)
-                      const Icon(
-                        Icons.done_all,
-                        size: 17,
-                        color: Color(0xFF8A91A8),
-                      ),
+                    // if (widget.message.hasRead)
+                    //   const SizedBox(height: 7),
+                    // if (widget.message.hasRead)
+                    //   const Icon(
+                    //     Icons.done_all,
+                    //     size: 17,
+                    //     color: Color(0xFF8A91A8),
+                    //   ),
                   ],
                 ),
               ],

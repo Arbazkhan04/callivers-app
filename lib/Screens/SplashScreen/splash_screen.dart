@@ -1,8 +1,10 @@
 import 'package:calliverse/Components/widget_extensions.dart';
 import 'package:calliverse/Constants/paths.dart';
+import 'package:calliverse/Provider/authen_provider.dart';
 import 'package:calliverse/Screens/AuthScreen/welcome_screen.dart';
 import 'package:calliverse/utils/app_common.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,7 +22,8 @@ void initState() {
 }
 
 mInit(){
-  Future.delayed(Duration(seconds: 3),() => WelcomeScreen().launch(context),);
+  final provider = Provider.of<AuthenProvider>(context,listen: false);
+  Future.delayed(Duration(seconds: 3),() => provider.checkLoginStatus(),);
 }
   @override
   Widget build(BuildContext context) {

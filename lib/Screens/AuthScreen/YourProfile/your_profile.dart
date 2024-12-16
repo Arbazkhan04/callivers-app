@@ -2,6 +2,7 @@ import 'package:calliverse/Components/widget_extensions.dart';
 import 'package:calliverse/Constants/color.dart';
 import 'package:calliverse/Constants/paths.dart';
 import 'package:calliverse/Constants/sizedbox.dart';
+import 'package:calliverse/Provider/authen_provider.dart';
 import 'package:calliverse/Widgets/appbar.dart';
 import 'package:calliverse/Widgets/button.dart';
 import 'package:calliverse/Widgets/textfield.dart';
@@ -15,6 +16,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../Provider/image_picker_provider.dart';
+import '../../../Widgets/dialogBox.dart';
 import '../../SubscriptionScreen/subscription_screen.dart';
 
 class SignupProfileScreen extends StatefulWidget {
@@ -30,11 +32,13 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ImagePickerProvider>(
-      builder: (context,imagePickerProvider,_) {
+    return Consumer2<ImagePickerProvider,AuthenProvider>(
+      builder: (context,imagePickerProvider,authProvider,_) {
         return Scaffold(
           backgroundColor: Colors.white,
-          appBar: appBar(title: 'Your Profile'),
+          appBar: appBar(title: 'Your Profile',leadOnTap: (){
+            return logoutDialogBox(context: context);
+          }),
           body: SafeArea(
             child: SingleChildScrollView(
               child: Container(
@@ -64,6 +68,9 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
                         )
                       ],
                     ),
+                    TextButton(onPressed: (){
+                      print("${authProvider.otpReturnModelData?.userId}");
+                    }, child: Text("Sdd")),
                     sizeHeight40,
                     Form(
                       key: _formKey,
@@ -72,23 +79,27 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
                           CustomTextField(
                             hintText: "First Name",
                             keyboardType: TextInputType.name,
+                            controller: authProvider.firstNameController,
                             validator: AllValidation().firstNameValidator,
                           ),
                           sizeHeight10,
                           CustomTextField(
                             hintText: "Last Name",
                             keyboardType: TextInputType.name,
+                            controller: authProvider.lastNameController,
                             validator: AllValidation().lastNameValidator,
                           ),
                           sizeHeight10,
                           CustomTextField(
                             hintText: "Bio (Optional)",
                             keyboardType: TextInputType.name,
+                            controller: authProvider.bioController,
                             validator: AllValidation().bioValidator,
                           ),
                           sizeHeight10,
                           CustomTextField(hintText: "Website Link (Optional)",
                             keyboardType: TextInputType.name,
+                            controller: authProvider.websiteController,
                             validator: AllValidation().websiteLinkValidator,
                           ),
 
@@ -98,13 +109,15 @@ class _SignupProfileScreenState extends State<SignupProfileScreen> {
                             child: MyButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                 if(imagePickerProvider.selectedImage == null || imagePickerProvider.selectedImage!.path.isEmpty){
-                                  AppToast.show("Please choose a image");
-                                }else{
+                                //  if(imagePickerProvider.selectedImage == null || imagePickerProvider.selectedImage!.path.isEmpty){
+                                //   AppToast.show("Please choose a image");
+                                // }else{
                                   // Handle form submission
-                                  SubscriptionScreen().launch(context);
+                                   authProvider.profileSetupFun();
+                                   print("object ${authProvider.firstNameController.text} ->  ${authProvider.lastNameController.text} ->  ${authProvider.websiteController.text} ->  ${authProvider.bioController.text} ->  ${imagePickerProvider.selectedImage?.path} -> ");
+                                  // SubscriptionScreen().launch(context);
 
-                                 }
+                                 // }
                                 }
                               },
                               text: 'Save',

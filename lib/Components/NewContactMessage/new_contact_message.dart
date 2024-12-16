@@ -1,9 +1,12 @@
 import 'package:calliverse/Constants/sizedbox.dart';
 import 'package:calliverse/Constants/textStyle.dart';
+import 'package:calliverse/utils/app_common.dart';
 import 'package:flutter/material.dart';
 
+import '../../modals/all_users_model_data.dart';
+
 class ContactListItem extends StatelessWidget {
-  final Contact contact;
+  final User contact;
 
   const ContactListItem({
     Key? key,
@@ -14,14 +17,11 @@ class ContactListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CircleAvatar(
-          radius: 25,
-          backgroundImage: NetworkImage(contact.imageUrl),
-        ),
+        cachedImage(contact.profileImage?.imageUrl,width: 50,height: 50,fit: BoxFit.cover,radius: 300),
         sizeWidth15,
         Expanded(
           child: Text(
-            contact.name,
+            contact.firstName ?? "Anonymous",
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: txtStyle14AndBold,

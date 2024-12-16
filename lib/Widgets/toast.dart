@@ -35,33 +35,31 @@ showMyWaitingModal({required BuildContext context,bool? isTextShowBool,String? l
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
-      return Consumer(builder: (context,provider,_){
-        return Dialog(
-          // elevation: 0,
-          // color: transparentColor,
-          elevation: 0,
-          backgroundColor: isTextShowBool == true? whiteColor : transparentColor,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(color: mainColor),
-                // SpinKitWaveSpinner(color: mainColor,waveColor: mainColor,),
-                isTextShowBool != null && isTextShowBool == true? sizeWidth10 : SizedBox(),
-                isTextShowBool != null && isTextShowBool == true? Expanded(
-                  child: Text(
-                    loadingText ??
-                    "We are creating your new shiny account",
-                    textAlign: TextAlign.center,
-                    style: txtStyle14AndMainBold,),
-                ) : SizedBox(),
-              ],
-            ),
+      return Dialog(
+        // elevation: 0,
+        // color: transparentColor,
+        elevation: 0,
+        backgroundColor: isTextShowBool == true? whiteColor : transparentColor,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(color: mainColor),
+              // SpinKitWaveSpinner(color: mainColor,waveColor: mainColor,),
+              isTextShowBool != null && isTextShowBool == true? sizeWidth10 : SizedBox(),
+              isTextShowBool != null && isTextShowBool == true? Expanded(
+                child: Text(
+                  loadingText ??
+                  "We are creating your new shiny account",
+                  textAlign: TextAlign.center,
+                  style: txtStyle14AndMainBold,),
+              ) : SizedBox(),
+            ],
           ),
-        );
-      });
+        ),
+      );
     },
   );
 }
@@ -90,9 +88,9 @@ messageWithImage({String? messageText}){
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      Image.asset(noTransactionIcon,width: 120,),
+      Image.asset(ic_placeholder,width: 60,),
       sizeHeight20,
-      Text(messageText??"",style: txtStyle12AndOther,),
+      Text(messageText??"",style: txtStyle16AndOther,),
 
     ],
   );

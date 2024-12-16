@@ -1,8 +1,10 @@
 import 'package:calliverse/Provider/bottom_bar_provider.dart';
+import 'package:calliverse/Provider/chat_provider.dart';
 import 'package:calliverse/socket_io_test.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Constants/color.dart';
 import 'Provider/authen_provider.dart';
@@ -10,8 +12,59 @@ import 'Provider/image_picker_provider.dart';
 import 'Provider/profile_provider.dart';
 import 'Screens/AuthScreen/welcome_screen.dart';
 import 'Screens/SplashScreen/splash_screen.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+late IO.Socket socket;
 
-void main() {
+void emitEventWithCallback(String eventName, dynamic data, Function callback) {
+  // Emit an event with a callback
+  socket.emitWithAck(eventName, data, ack: (response) {
+    callback(response);
+  });
+}
+
+
+SharedPreferences pref = SharedPreferences.getInstance() as SharedPreferences;
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  socket = IO.io('http://192.168.100.252:3003', <String, dynamic>{
+    'transports': ['websocket'],
+    'autoConnect': true,
+  });
+  socket.connect();
+  socket.onConnect((_) {
+    print('Connected to socket');
+    // emitEventWithCallback(
+    //   'getAllChatMessages', {
+    //   "chatId": "675d7466bef3490642f6c863",
+    //   "page": 1,
+    //   "limit": 10,
+    // },
+    //       (response) {
+    //     if (response != null && response['success']) {
+    //       List<dynamic> data = response['data'];
+    //       // Process the fetched messages
+    //       // setState(() {
+    //       //   messages = data.map((msg) => Message.fromJson(msg)).toList();
+    //       // });
+    //       print("dataC -> ${data.length}");
+    //       print('Messages fetched successfully.');
+    //     } else {
+    //       print('Failed to fetch messages: ${response?['error']}');
+    //     }
+    //   },
+    // );
+  });
+
+  socket.onConnectError((error) {
+    print('Connection Error: $error');
+  });
+
+  socket.onError((error) {
+    print('Error: $error');
+  });
+
+  pref = await SharedPreferences.getInstance();
+
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider<BottomBarProvider>(
@@ -25,6 +78,9 @@ void main() {
         ),
         ChangeNotifierProvider<ImagePickerProvider>(
           create: (_) => ImagePickerProvider(),
+        ),
+        ChangeNotifierProvider<ChatProvider>(
+          create: (_) => ChatProvider(),
         ),
       ],
       child: const MyApp()));
@@ -65,6 +121,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: SplashScreen(),
+      // ChatScreen(senderId: "675b24d999f7d757d11d667d",receiverId: "675b308299f7d757d11d6684",),
     );
   }
 }

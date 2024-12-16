@@ -3,6 +3,7 @@ import 'package:calliverse/Components/widget_extensions.dart';
 import 'package:calliverse/Constants/color.dart';
 import 'package:calliverse/Constants/paths.dart';
 import 'package:calliverse/Constants/textStyle.dart';
+import 'package:calliverse/Provider/authen_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -73,7 +74,10 @@ class ProfileSettingsList extends StatelessWidget {
                 icon: logoutIcon,
                 title: 'Logout',
                 showArrow: true,
-              ),
+              ).onTap((){
+                final provider = Provider.of<AuthenProvider>(context,listen: false);
+                provider.logoutFun();
+              }),
               SettingsItem(
                 icon: deleteIcon,
                 title: 'Delete Account',

@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart';
 
 import '../Widgets/my_print.dart';
+import '../modals/all_user_chats_model.dart';
+import '../modals/all_users_model_data.dart';
 import '../utils/app_constants.dart';
 import 'network_utils.dart';
 
@@ -46,7 +49,7 @@ import 'network_utils.dart';
 
 
 
-Future examplePostApi({required Map req}) async {
+Future examplePostApi({required Map<String, dynamic> req}) async {
   return await (buildHttpResponse('user/friend/request/send/cancel', request: req, method: HttpMethod.POST).then((value){
     // myPrint("cancelSendFriendRequestPostApi ${value.statusCode} ----> ${value.body} ----> ${jsonDecode(value.body)}");
     return value.body;
@@ -56,13 +59,13 @@ Future examplePostApi({required Map req}) async {
 Future exampleGetApi({page,name}) async {
   // return AllFriendRequestModalClass.fromJson(await handleResponse(await (buildHttpResponse(name != null && name.toString().isNotEmpty? 'friends/requests?username=$name' : 'friends/requests?page=$page', method: HttpMethod.GET))));
 }
-Future registerApi({required Map req}) async {
+Future registerApi({required Map<String, dynamic> req}) async {
   return await buildHttpResponse('userManagementRoutes/createUser', request: req, method: HttpMethod.POST,isChooseSimpleHeader: true).then((value){
     myPrint("createAccountPostApi ${value.statusCode} ----> ${value.body} ----> ${jsonDecode(value.body)}");
     return value.body;
   });
 }
-Future loginApi({required Map req}) async {
+Future loginApi({required Map<String, dynamic> req}) async {
   return await buildHttpResponse('userManagementRoutes/login', request: req, method: HttpMethod.POST,isChooseSimpleHeader: true).then((value){
     myPrint("loginApi ${value.statusCode} ----> ${value.body} ----> ${jsonDecode(value.body)}");
     return value.body;
@@ -70,22 +73,33 @@ Future loginApi({required Map req}) async {
 }
 
 
-Future otpVerifiedApi({required Map req}) async {
+Future otpVerifiedApi({required Map<String, dynamic> req}) async {
   return await buildHttpResponse('userManagementRoutes/verifyEmailCode', request: req, method: HttpMethod.POST,isChooseSimpleHeader: true).then((value){
     myPrint("otpVerifiedApi ${value.statusCode} ----> ${value.body} ----> ${jsonDecode(value.body)}");
     return value.body;
   });
 }
 
-Future resendOtpApi({required Map req}) async {
+Future resendOtpApi({required Map<String, dynamic> req}) async {
   return await buildHttpResponse('userManagementRoutes/resendVerificationCode', request: req, method: HttpMethod.POST,isChooseSimpleHeader: true).then((value){
     myPrint("resendOtpApi ${value.statusCode} ----> ${value.body} ----> ${jsonDecode(value.body)}");
     return value.body;
   });
 }
 
+Future profileSetupApi({required Map<String, String> req,userId,
+  // required File image
+}) async {
+  return await buildHttpResponse('userManagementRoutes/update-profile/$userId', fields: req,
+      // file: image,
+      method: HttpMethod.PATCH,isChooseSimpleHeader: true).then((value){
+    myPrint("profileSetupApi ${value.statusCode} ----> ${value.body} ----> ${jsonDecode(value.body)}");
+    return value.body;
+  });
+}
 
-// Future createAccountPostApi({required Map req}) async {
+
+// Future createAccountPostApi({required Map<String, dynamic> req}) async {
 //   return await handleResponse(buildHttpResponse('userManagementRoutes/createUser', request: req, method: HttpMethod.POST,isChooseSimpleHeader: true).then((value){
 //     myPrint("createAccountPostApi ${value.statusCode} ----> ${value.body} ----> ${jsonDecode(value.body)}");
 //     return value.body;
@@ -96,3 +110,19 @@ Future resendOtpApi({required Map req}) async {
 //   return UserAllFriendsModalClass.fromJson(await handleResponse(await (buildHttpResponse(name != null && name.toString().isNotEmpty?'friends?user_id=$userId&name=$name' :'friends?user_id=$userId&page=$page&name=$name', method: HttpMethod.GET))));
 // }
 
+Future userAllChatGetApi({page,userId}) async {
+  return AllUserChats.fromJson(await handleResponse(await (buildHttpResponse('chatManagmentRoutes/fetchAllChats/${userId}?page=$page&limit=2', method: HttpMethod.GET))));
+}
+
+Future allUsersGetApi({page}) async {
+  return AllUsersAllUsersList.fromJson(await handleResponse(await (buildHttpResponse('userManagementRoutes/getAllUsers?page=${page}&limit=12', method: HttpMethod.GET))));
+}
+
+//// Create New Contact
+
+Future createNewChatApi({required Map<String, dynamic> req}) async {
+  return await buildHttpResponse('chatManagmentRoutes/createChat', request: req, method: HttpMethod.POST,isChooseSimpleHeader: true).then((value){
+    myPrint("createNewChatApi ${value.statusCode} ----> ${value.body} ----> ${jsonDecode(value.body)}");
+    return value.body;
+  });
+}

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:calliverse/Components/string_extensions.dart';
 import 'package:calliverse/Components/widget_extensions.dart';
+import 'package:calliverse/Constants/app_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -35,23 +36,24 @@ Widget cachedImage(String? url, {double? height,bool? isFileImageBool,bool? isCu
             child: placeHolderWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius),
           )).cornerRadiusWithClipRRect(radius ?? defaultRadius);
     }else{
-    return placeHolderWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius);
+    return placeHolderInternetWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius);
     }
   } else if (url.validate().startsWith('http')) {
+    print("url.validate().startsWith('http')");
     return CachedNetworkImage(
-      imageUrl: url!,
+      imageUrl: "${mBackendURL}${url!.split("3003").last}",
       height: height,
       width: width,
       fit: fit,
       color: color,
       alignment: alignment as Alignment? ?? Alignment.center,
       progressIndicatorBuilder: (context, url, progress) {
-        return placeHolderWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius);
+        return placeHolderInternetWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius);
       },
       errorWidget: (_, s, d) {
-        return placeHolderWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius);
+        return placeHolderInternetWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius);
       },
-    );
+    ).cornerRadiusWithClipRRect(radius ?? 0);
   } else if(isFileImageBool == true){
     return Image.file(File(url!), height: height, width: width, color: color, fit: BoxFit.contain, alignment: alignment ?? Alignment.center).cornerRadiusWithClipRRect(radius ?? defaultRadius);
   }else if(isCustomImage == true){
@@ -63,6 +65,9 @@ Widget cachedImage(String? url, {double? height,bool? isFileImageBool,bool? isCu
 
 Widget placeHolderWidget({double? height, double? width, BoxFit? fit, AlignmentGeometry? alignment, double? radius}) {
   return Image.asset(ic_placeholder2, height: height, width: width, fit: BoxFit.cover, alignment: alignment ?? Alignment.center).cornerRadiusWithClipRRect(radius ?? defaultRadius);
+}
+Widget placeHolderInternetWidget({double? height, double? width, BoxFit? fit, AlignmentGeometry? alignment, double? radius}) {
+  return Image.asset(ic_placeholder, height: height, width: width, fit: BoxFit.cover, alignment: alignment ?? Alignment.center).cornerRadiusWithClipRRect(radius ?? defaultRadius);
 }
 //
 // setLogInValue() {

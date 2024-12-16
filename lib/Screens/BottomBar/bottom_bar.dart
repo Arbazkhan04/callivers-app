@@ -1,5 +1,6 @@
 
 import 'package:calliverse/Constants/paths.dart';
+import 'package:calliverse/Provider/authen_provider.dart';
 import 'package:calliverse/Screens/MessageScreen/message_screen.dart';
 import 'package:calliverse/Screens/ProfileScreen/profile_screen.dart';
 import 'package:calliverse/utils/app_common.dart';
@@ -50,7 +51,7 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<BottomBarProvider>(builder: (context,provider,child){
+    return Consumer2<BottomBarProvider,AuthenProvider>(builder: (context,provider,authProvider,child){
       return Scaffold(
         body: _widgetOptions.elementAt(provider.selectedIndex),
         bottomNavigationBar: WillPopScope(
@@ -111,7 +112,7 @@ class _BottomBarState extends State<BottomBar> {
 
                   icon: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    child:  cachedImage(demoNewMessagePersonImage,width: 30,),
+                    child:  cachedImage(authProvider.userInfoData?.profileImage?.imageUrl,width: 30,),
                   ),
                   label: 'Profile',
                   backgroundColor: Colors.white,

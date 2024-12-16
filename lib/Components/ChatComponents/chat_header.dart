@@ -1,11 +1,13 @@
 import 'package:calliverse/Constants/paths.dart';
 import 'package:calliverse/Constants/textStyle.dart';
+import 'package:calliverse/utils/app_common.dart';
 import 'package:flutter/material.dart';
 
+import '../../modals/all_user_chats_model.dart';
 import '../Message/message_list.dart';
 
 class ChatHeader extends StatefulWidget {
-  final MessageData item;
+  final Participant item;
   ChatHeader({
     Key? key,
     required this.item,
@@ -34,14 +36,11 @@ class _ChatHeaderState extends State<ChatHeader> {
                 ),
                 onPressed: () => Navigator.pop(context),
               ),
-              CircleAvatar(
-                radius: 22.5,
-                backgroundImage: AssetImage(demoNewMessagePersonImage),
-              ),
+              cachedImage(widget.item.profileImage?.imageUrl,width: 45,height: 45,fit: BoxFit.cover,radius: 300),
               SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  widget.item.name,
+                  widget.item.firstName ?? "",
                   style: txtStyle18AndBold,
                 ),
               ),

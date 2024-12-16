@@ -13,14 +13,18 @@ class ProfileScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-          Padding(
+            Padding(
             padding: const EdgeInsets.all(16),
-            child: Text(
-            'Profile',
-            style: txtStyle18AndBold,
-                        ),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Text(
+              'Profile',
+              // textAlign: TextAlign.start,
+              style: txtStyle18AndBold,
+                          ),
+            ),
           ),
             ProfileInfo(),
             Expanded(child: SingleChildScrollView(child: ProfileSettingsList())),

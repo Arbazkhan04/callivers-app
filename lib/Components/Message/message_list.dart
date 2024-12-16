@@ -4,29 +4,29 @@ import 'package:flutter/material.dart';
 
 import 'message_tile.dart';
 
-class MessageList extends StatelessWidget {
-  const MessageList({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.all(20),
-      itemCount: messageData.length,
-      separatorBuilder: (context, index) => const Divider(
-        height: 24,
-        thickness: 1,
-        color: Color(0xFFEFF0F1),
-      ),
-      itemBuilder: (context, index) => MessageTile(
-        message: messageData[index],
-        onTap: (){
-          ChatScreen(item: messageData[index],).launch(context);
-        },
-
-      ),
-    );
-  }
-}
+// class MessageList extends StatelessWidget {
+//   const MessageList({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return ListView.separated(
+//       padding: const EdgeInsets.all(20),
+//       itemCount: messageData.length,
+//       separatorBuilder: (context, index) => const Divider(
+//         height: 24,
+//         thickness: 1,
+//         color: Color(0xFFEFF0F1),
+//       ),
+//       itemBuilder: (context, index) => MessageTile(
+//         message: messageData[index],
+//         onTap: (){
+//           ChatScreen(item: messageData[index],).launch(context);
+//         },
+//
+//       ),
+//     );
+//   }
+// }
 
 final List<MessageData> messageData = [
   MessageData(
