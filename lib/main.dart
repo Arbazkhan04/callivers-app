@@ -26,7 +26,7 @@ void emitEventWithCallback(String eventName, dynamic data, Function callback) {
 SharedPreferences pref = SharedPreferences.getInstance() as SharedPreferences;
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  socket = IO.io('http://192.168.100.252:3003', <String, dynamic>{
+  socket = IO.io('http://192.168.0.104:3003', <String, dynamic>{
     'transports': ['websocket'],
     'autoConnect': true,
   });

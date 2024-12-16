@@ -24,6 +24,7 @@ class MyButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
+          elevation: 0,
           backgroundColor: backgroundColor ?? mainColor,
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 48),
           shape: RoundedRectangleBorder(

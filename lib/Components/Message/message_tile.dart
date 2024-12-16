@@ -3,6 +3,7 @@ import 'package:calliverse/Constants/textStyle.dart';
 import 'package:calliverse/modals/all_user_chats_model.dart';
 import 'package:calliverse/utils/app_common.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../modals/all_users_model_data.dart';
 import 'message_list.dart';
@@ -46,46 +47,53 @@ class _MessageTileState extends State<MessageTile> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      // widget.message.name,
-                      widget.message?.participants?.first.firstName ?? "",
-                      style:
-                      txtStyle16AndBold.copyWith(
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        // widget.message.name,
+                        widget.message?.participants?.first.firstName ?? "",
+                        style:
+                        txtStyle16AndBold.copyWith(
 
-                        letterSpacing: -0.3,
+                          letterSpacing: -0.3,
+                        ),
+                        // const TextStyle(
+                        //   fontSize: 15,
+                        //   fontWeight: FontWeight.w700,
+                        //   color: Colors.black,
+                        // ),
                       ),
-                      // const TextStyle(
-                      //   fontSize: 15,
-                      //   fontWeight: FontWeight.w700,
-                      //   color: Colors.black,
-                      // ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      "",
-                      // widget.message.message,
-                      style:
-                      txtStyle14AndOther.copyWith(
-                        letterSpacing: -0.28,
-                        fontWeight: FontWeight.w700,
+                      const SizedBox(height: 4),
+                      Text(
+                        // "",
+                        widget.message?.lastMessage?.content ?? "",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style:
+                        txtStyle14AndOther.copyWith(
+                          letterSpacing: -0.28,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        // const TextStyle(
+                        //   fontSize: 14,
+                        //   fontWeight: FontWeight.w500,
+                        //   color: Color(0xFF8A91A8),
+                        // ),
                       ),
-                      // const TextStyle(
-                      //   fontSize: 14,
-                      //   fontWeight: FontWeight.w500,
-                      //   color: Color(0xFF8A91A8),
-                      // ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      "",
-                      // widget.message.time,
+                      // "",
+                widget.message != null &&
+                widget.message!.lastMessage != null &&
+                widget.message!.lastMessage!.updatedAt != null?
+                      DateFormat("dd-MMM-yyyy").format((widget.message!.lastMessage!.updatedAt!)) : "",
                       style:
                       txtStyle12AndOther.copyWith(
                         letterSpacing: -0.24,
