@@ -38,7 +38,11 @@ Widget cachedImage(String? url, {double? height,bool? isFileImageBool,bool? isCu
     }else{
     return placeHolderInternetWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius);
     }
-  } else if (url.validate().startsWith('http')) {
+  } 
+  else if(url.validate().startsWith("profileImage")){
+    return placeHolderInternetWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius);
+  }
+  else if (url.validate().startsWith('http')) {
     print("url.validate().startsWith('http')");
     return CachedNetworkImage(
       imageUrl: "${mBackendURL}${url!.split("3003").last}",

@@ -88,10 +88,10 @@ Future resendOtpApi({required Map<String, dynamic> req}) async {
 }
 
 Future profileSetupApi({required Map<String, String> req,userId,
-  // required File image
+  File? image
 }) async {
   return await buildHttpResponse('userManagementRoutes/update-profile/$userId', fields: req,
-      // file: image,
+      file: image,
       method: HttpMethod.PATCH,isChooseSimpleHeader: true).then((value){
     myPrint("profileSetupApi ${value.statusCode} ----> ${value.body} ----> ${jsonDecode(value.body)}");
     return value.body;
@@ -111,7 +111,7 @@ Future profileSetupApi({required Map<String, String> req,userId,
 // }
 
 Future userAllChatGetApi({page,userId}) async {
-  return AllUserChats.fromJson(await handleResponse(await (buildHttpResponse('chatManagmentRoutes/fetchAllChats/${userId}?page=$page&limit=2', method: HttpMethod.GET))));
+  return AllUserChats.fromJson(await handleResponse(await (buildHttpResponse('chatManagmentRoutes/fetchAllChats/${userId}?page=$page&limit=12', method: HttpMethod.GET))));
 }
 
 Future allUsersGetApi({page}) async {

@@ -28,9 +28,11 @@ class ProfileInfo extends StatelessWidget {
                   ),
                 ],
               ),
-              child: cachedImage(authProvider.userInfoData!.profileImage!.imageUrl,width: 140),
+              child: cachedImage(authProvider.userInfoData != null && authProvider.userInfoData?.profileImage != null && authProvider.userInfoData!.profileImage!.imageUrl != null? authProvider.userInfoData!.profileImage!.imageUrl : "",
+                  width: 140,radius: 300),
             ),
             const SizedBox(height: 21),
+            // Text("datasd ${authProvider.userInfoData?.toJson()}"),
             Text(
               "${authProvider.userInfoData?.firstName ??""} ${authProvider.userInfoData?.lastName ?? ""}",
               style: txtStyle16AndBold,

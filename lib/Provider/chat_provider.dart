@@ -24,8 +24,8 @@ class ChatProvider extends ChangeNotifier{
     allUserChats = null;
     allChatList.clear();
     allChat.clear();
-
     notifyListeners();
+    print("Ssasfa -> ${provider.userInfoData?.userId}");
     allUserChats = await userAllChatGetApi(userId: provider.userInfoData?.userId,page: 1);
     // if(allUserChats != null && allUserChats!.data != null && allUserChats!.data!.chats != null && allUserChats!.data!.chats!.isNotEmpty){
     //   allUsersAllUsersModelData = await allUsersGetApi();
@@ -142,6 +142,7 @@ class ChatProvider extends ChangeNotifier{
     }).then((e){
       final jsonData = jsonDecode(e);
       if(jsonData["success"] == true && jsonData["message"] == "Chat created successfully."){
+        allChat.add(Chat.fromJson(jsonData["data"]));
         allNewMessageUsersList.removeWhere((ele) => ele.id == otherUserId);
         AppToast.show("Chat created successfully.");
         pop();

@@ -27,6 +27,10 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
             ProfileInfo(),
+            // Container(
+            //   color: Colors.blue,
+            //   decoration: BoxDecoration(),
+            // ),
             Expanded(child: SingleChildScrollView(child: ProfileSettingsList())),
           ],
         ),

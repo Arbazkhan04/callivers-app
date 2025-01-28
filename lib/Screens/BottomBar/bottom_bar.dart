@@ -112,7 +112,7 @@ class _BottomBarState extends State<BottomBar> {
 
                   icon: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    child:  cachedImage(authProvider.userInfoData?.profileImage?.imageUrl,width: 30,),
+                    child:  cachedImage(authProvider.userInfoData?.profileImage?.imageUrl,width: 30,radius: 300),
                   ),
                   label: 'Profile',
                   backgroundColor: Colors.white,

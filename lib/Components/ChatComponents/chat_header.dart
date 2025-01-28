@@ -42,7 +42,7 @@ class _ChatHeaderState extends State<ChatHeader> {
                       chatProvider.userAllChatFun();
                       Navigator.pop(context);},
                   ),
-                  cachedImage(widget.item.profileImage?.imageUrl,width: 45,height: 45,fit: BoxFit.cover,radius: 300),
+                  cachedImage(widget.item.profileImage,width: 45,height: 45,fit: BoxFit.cover,radius: 300),
                   SizedBox(width: 8),
                   Expanded(
                     child: Text(

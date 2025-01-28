@@ -5,10 +5,10 @@ import 'package:image_picker/image_picker.dart';
 // import 'package:image_cropper/image_cropper.dart';
 
 class ImagePickerProvider with ChangeNotifier {
-  File? _selectedImage;
+  File? selectedImage;
 
   // Getter for the selected image
-  File? get selectedImage => _selectedImage;
+  // File? get selectedImage => _selectedImage;
 
   // Function to pick and optionally crop an image
   Future<void> pickAndCropImage({required ImageSource source}) async {
@@ -46,7 +46,7 @@ class ImagePickerProvider with ChangeNotifier {
       );
 
       if (croppedFile != null) {
-        _selectedImage = File(croppedFile.path); // Update the image state
+        selectedImage = File(croppedFile.path); // Update the image state
         notifyListeners(); // Notify listeners to rebuild widgets
       }
     } catch (e) {
@@ -56,7 +56,7 @@ class ImagePickerProvider with ChangeNotifier {
 
   // Function to clear the selected image
   void clearImage() {
-    _selectedImage = null;
+    selectedImage = null;
     notifyListeners();
   }
 }

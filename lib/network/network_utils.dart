@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:calliverse/Constants/int_extensions.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import '../Components/common.dart';
 import '../Constants/app_config.dart';
 import '../utils/app_constants.dart';
@@ -68,7 +69,7 @@ Uri buildBaseUrl(String endPoint) {
 //     throw "errorInternetNotAvailable";
 //   }
 // }
-////
+////My Code
 Future<http.Response> buildHttpResponse(
     String endPoint, {
       HttpMethod method = HttpMethod.GET,
@@ -90,9 +91,24 @@ Future<http.Response> buildHttpResponse(
     if (method == HttpMethod.POST) {
       log('Request: $request');
       response = await http.post(url, body: jsonEncode(request), headers: headers);
-    } else if (method == HttpMethod.PATCH) {
-      log('Multipart PATCH Request');
-      headers.remove('Content-Type'); // Do not set Content-Type manually for multipart
+    } else
+    //   if (method == HttpMethod.PATCH) {
+    //   log('Multipart PATCH Request');
+    //   headers.remove('Content-Type'); // Do not set Content-Type manually for multipart
+    //   var multipartRequest = http.MultipartRequest('PATCH', url);
+    //   multipartRequest.headers.addAll(headers);
+    //
+    //   if (fields != null) {
+    //     multipartRequest.fields.addAll(fields);
+    //   }
+    //
+    //   http.StreamedResponse streamedResponse = await multipartRequest.send();
+    //
+    //   String responseBody = await streamedResponse.stream.transform(utf8.decoder).join();
+    //   response = http.Response(responseBody, streamedResponse.statusCode);
+    // }
+    if (method == HttpMethod.PATCH) {
+      headers.remove('Content-Type'); // Avoid setting it manually for multipart
       var multipartRequest = http.MultipartRequest('PATCH', url);
       multipartRequest.headers.addAll(headers);
 
@@ -100,11 +116,30 @@ Future<http.Response> buildHttpResponse(
         multipartRequest.fields.addAll(fields);
       }
 
-      http.StreamedResponse streamedResponse = await multipartRequest.send();
+      // Add the file, if it exists
+      if (file != null) {
+        multipartRequest.files.add(
+            await http.MultipartFile.fromPath(
+              'profileImage',
+              file.path,
+              contentType: MediaType('image', 'jpeg'), // or 'image/png' if appropriate
+            )
+        );
+      }
 
+      http.StreamedResponse streamedResponse = await multipartRequest.send();
       String responseBody = await streamedResponse.stream.transform(utf8.decoder).join();
-      response = http.Response(responseBody, streamedResponse.statusCode);
-    } else if (method == HttpMethod.DELETE) {
+
+      // Construct the response with UTF-8 encoding
+      response = http.Response.bytes(
+        utf8.encode(responseBody),
+        streamedResponse.statusCode,
+        headers: streamedResponse.headers,
+      );
+    }
+
+
+    else if (method == HttpMethod.DELETE) {
       response = await http.delete(url, headers: headers);
     } else if (method == HttpMethod.PUT) {
       response = await http.put(url, body: jsonEncode(request), headers: headers);

@@ -172,7 +172,8 @@ class LastMessage {
 }
 
 class Participant {
-  ProfileImage? profileImage;
+  // ProfileImage? profileImage;
+  String? profileImage;
   String? id;
   String? email;
   String? lastName;
@@ -187,7 +188,7 @@ class Participant {
   });
 
   factory Participant.fromJson(Map<String, dynamic> json) => Participant(
-    profileImage: json["profileImage"] == null ? null : ProfileImage.fromJson(json["profileImage"]),
+    profileImage: json["profileImage"],
     id: json["_id"],
     email: json["email"],
     lastName: json["lastName"],
@@ -195,7 +196,8 @@ class Participant {
   );
 
   Map<String, dynamic> toJson() => {
-    "profileImage": profileImage?.toJson(),
+    // "profileImage": profileImage?.toJson(),
+    "profileImage": profileImage,
     "_id": id,
     "email": email,
     "lastName": lastName,

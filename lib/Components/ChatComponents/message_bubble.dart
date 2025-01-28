@@ -1,6 +1,8 @@
 import 'package:calliverse/Constants/color.dart';
 import 'package:calliverse/Constants/textStyle.dart';
+import 'package:calliverse/Widgets/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class MessageBubble extends StatelessWidget {
   final String message;
@@ -99,7 +101,8 @@ class MessageBubble extends StatelessWidget {
               ),
             SizedBox(height: 4),
             Text(
-              isMe ? '$time · Read' : time,
+              // isMe ? '${DateFormat("").format(DateTime.parse(time))} · Read' : time,
+              isMe ? '${convertToUserLocalTime(time)} · Read' : convertToUserLocalTime(time),
               style: TextStyle(
                 color: isMe ? Colors.white70 : Color(0xFFADB5BD),
                 fontSize: 10,

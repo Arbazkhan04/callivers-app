@@ -1,11 +1,14 @@
+import 'package:calliverse/Constants/constants.dart';
 import 'package:calliverse/Provider/bottom_bar_provider.dart';
 import 'package:calliverse/Provider/chat_provider.dart';
 import 'package:calliverse/socket_io_test.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Constants/app_config.dart';
 import 'Constants/color.dart';
 import 'Provider/authen_provider.dart';
 import 'Provider/image_picker_provider.dart';
@@ -13,6 +16,8 @@ import 'Provider/profile_provider.dart';
 import 'Screens/AuthScreen/welcome_screen.dart';
 import 'Screens/SplashScreen/splash_screen.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+import 'Widgets/error_show_screen.dart';
 late IO.Socket socket;
 
 void emitEventWithCallback(String eventName, dynamic data, Function callback) {
@@ -26,7 +31,8 @@ void emitEventWithCallback(String eventName, dynamic data, Function callback) {
 SharedPreferences pref = SharedPreferences.getInstance() as SharedPreferences;
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  socket = IO.io('http://192.168.0.104:3003', <String, dynamic>{
+  Firebase.initializeApp();
+  socket = IO.io(mBackendURL, <String, dynamic>{
     'transports': ['websocket'],
     'autoConnect': true,
   });
@@ -62,7 +68,12 @@ void main() async{
   socket.onError((error) {
     print('Error: $error');
   });
-
+  
+  // FlutterError.onError = (FlutterErrorDetails detail){
+  //   FlutterError.dumpErrorToConsole(detail);
+  //   runApp(ErrorWidgetClass(errorDetails: detail));
+  // };
+  
   pref = await SharedPreferences.getInstance();
 
   runApp(MultiProvider(
@@ -127,3 +138,114 @@ class MyApp extends StatelessWidget {
 }
 
 
+class ErrorWidgetClass extends StatefulWidget {
+  final FlutterErrorDetails errorDetails;
+  const ErrorWidgetClass({super.key, required this.errorDetails});
+
+  @override
+  State<ErrorWidgetClass> createState() => _ErrorWidgetClassState();
+}
+
+class _ErrorWidgetClassState extends State<ErrorWidgetClass> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: "Custom Error",
+      home: ErrorDisplayWidget(
+        errorMessage: widget.errorDetails.exceptionAsString(),
+      ),
+    );
+  }
+}
+
+fun(){
+
+  // var token = UUid.toStirng();
+  // login(){
+  //   // response -> success {
+  //   //----------------
+  //   // ------=--
+  //   // }
+  // }
+}
+
+
+
+class CustomErrorWidget extends StatelessWidget {
+  final FlutterErrorDetails errorDetails;
+
+  const CustomErrorWidget({super.key, required this.errorDetails});
+
+  @override
+  Widget build(BuildContext context) {
+    // Log the error details to the console
+    // debugPrint('Error occurred: ${errorDetails.exceptionAsString()}');
+
+    return Scaffold(
+      backgroundColor: whiteColor,
+      appBar: AppBar(
+        title: const Text('An Error Occurred'),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.redAccent.shade100,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.error_outline,
+                  color: Colors.white,
+                  size: 60,
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'Oops! Something went wrong.',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  errorDetails.exceptionAsString(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.white70,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    // Navigate back to the previous screen or perform any other desired action
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.redAccent,
+                  ),
+                  child: const Text('Go Back'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

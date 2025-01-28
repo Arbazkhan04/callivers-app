@@ -78,10 +78,10 @@ class _NewMessageScreenState extends State<NewMessageScreen> {
                       :
                       ListView.separated(
                         shrinkWrap: true,
-                      itemCount: chatProvider.allNewMessageUsersList.length,
+                      itemCount: chatProvider.allNewMessageUsersList.where((e) => e.id != authProvider.userInfoData!.userId).toList().length,
                       separatorBuilder: (e,i) => divider,
                       itemBuilder: (_,index){
-                        final item = chatProvider.allNewMessageUsersList[index];
+                        final item = chatProvider.allNewMessageUsersList.where((e) => e.id != authProvider.userInfoData!.userId).toList()[index];
                     return ContactListItem(contact: item).onTap((){
                       // socket.emit('joinChat', {
                       //   "chatId": item.id,

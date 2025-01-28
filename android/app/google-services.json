@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "955566719343",
+    "project_id": "calliverse-d2a4d",
+    "storage_bucket": "calliverse-d2a4d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:955566719343:android:3322c050dadc460d43e89a",
+        "android_client_info": {
+          "package_name": "com.devartitect.calliverse"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC08fQsAlQ3ltVdnny36O-tHTxl9KpDZb4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
